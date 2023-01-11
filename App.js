@@ -6,10 +6,11 @@
  * @flow strict-local
  */
 
-import React, { useState, useRef, useEffect, useCallback, lazy } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Camera, useCameraDevices } from 'react-native-vision-camera';
-import { SafeAreaView, Text, StyleSheet, View } from 'react-native';
+import { SafeAreaView, Text, StyleSheet, View, Button, Linking } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import CameraNotAccessible from './src/components/CameraNotAccessible';
 
 
 
@@ -28,7 +29,7 @@ export default function App() {
     const permissionStatus = await Camera.getCameraPermissionStatus();
     if (permissionStatus === "authorized") {
       setCameraAccess(true);
-    } else {
+    } else { 
       const newCameraPermission = await Camera.requestCameraPermission();
       setCameraAccess(newCameraPermission === "authorized");
     }
@@ -54,19 +55,28 @@ export default function App() {
     }).then((e) => { alert("Picture taken"); }).catch((e) => {console.log(e)});
   }
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.heading}>CAMERA APP</Text>
-      { (hasCameraAccess)?<Camera device={ device }
+  const cameraView = () => {
+    if (hasCameraAccess && device) {
+      return <><Camera device={ device }
         style={styles.cameraContainer}
         ref={camera}
         photo={true}
-        isActive={true} />:<Text>Doesnt have camera access</Text> }
-      
+        isActive={true} />
       <View style={styles.controller}>
         <ControllerIcon name="repeat" onPress={onTogglePosition} />
         <ControllerIcon name="flash" onPress={() => { setFlashOn(!isFlashOn) }} isSelected={isFlashOn} />
         <ControllerIcon name="camera" onPress={ onClickPicture } />
+      </View></>
+    } else {
+      return <CameraNotAccessible/>
+    }
+  }
+
+  return (
+    <SafeAreaView style={styles.appContainer}>
+      <Text style={styles.heading}>CAMERA APP</Text>
+      <View >
+        {cameraView()}
       </View>
     </SafeAreaView>
   );
@@ -77,20 +87,20 @@ const ControllerIcon = ({ name, onPress, isSelected }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  appContainer: {
     width: "80%",
     alignSelf: "center"
   },
   cameraContainer: {
     width: "100%",
-    height: "70%"
+    height: "80%"
   },
   heading: {
     fontSize: 30,
     fontWeight: "bold",
     alignSelf: "center",
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 50,
   },
   controller: {
     width: "100%",
@@ -98,5 +108,5 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 10,
     justifyContent: "space-evenly",
-}
+  }
 });
