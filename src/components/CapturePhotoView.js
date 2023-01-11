@@ -2,6 +2,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState, useRef } from 'react';
 import { Camera } from 'react-native-vision-camera';
 import { StyleSheet, View } from 'react-native'
+import CameraRoll from '@react-native-community/cameraroll';
 
 
 const COLOR_ICON_DEFAULT = "#FEFEFE";
@@ -15,7 +16,13 @@ export default function CapturePhotoView({ device, onTogglePosition }) {
     const onClickPicture = async () => {
       camera.current.takePhoto({
           flash: (isFlashOn) ? "on" : "off"
-      }).then((e) => { alert("Picture taken"); }).catch((e) => {console.log(e)});
+      })
+          .then((photo) => {
+              CameraRoll.save(photo.path);
+          })
+          .catch((e) => {
+              alert("Couldnt capture")
+          });
     }
     
     return (

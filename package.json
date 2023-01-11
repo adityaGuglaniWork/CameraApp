@@ -10,10 +10,13 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/cameraroll": "^4.1.2",
+    "fbjs": "^3.0.4",
     "react": "18.1.0",
     "react-native": "0.70.6",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-vision-camera": "^2.15.2"
+    "react-native-vision-camera": "^2.15.2",
+    "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
