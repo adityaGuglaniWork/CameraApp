@@ -50,25 +50,10 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={styles.appContainer}>
-      <Text style={styles.heading}>CAMERA APP</Text>
+    <SafeAreaView>
       <View >
         {cameraView()}
       </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  appContainer: {
-    width: "80%",
-    alignSelf: "center"
-  },
-  heading: {
-    fontSize: 30,
-    fontWeight: "bold",
-    alignSelf: "center",
-    marginTop: 10,
-    marginBottom: 50,
-  }
-});
