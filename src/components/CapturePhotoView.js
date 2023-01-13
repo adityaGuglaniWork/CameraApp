@@ -28,9 +28,9 @@ export default function CapturePhotoView({ device, onTogglePosition }) {
     return (
       <>
         <Camera device={device}
-          style={styles.cameraContainer}
           ref={camera}
           photo={true}
+          style={styles.cameraContainer}
           isActive={true} />
         <View style={styles.controller}>
           <ControllerIcon name="repeat" onPress={onTogglePosition} />
@@ -42,19 +42,19 @@ export default function CapturePhotoView({ device, onTogglePosition }) {
 }
   
 const ControllerIcon = ({ name, onPress, isSelected }) => {
-    return <Icon name={name} size={COLOR_ICON_SIZE} onPress={onPress} color={ (isSelected)? COLOR_ICON_HIGHLIGHTED : COLOR_ICON_DEFAULT } />
+    return <Icon name={name} size={COLOR_ICON_SIZE} style={{marginBottom: 40, marginLeft: 15, alignSelf: "center"}} onPress={onPress} color={ (isSelected)? COLOR_ICON_HIGHLIGHTED : COLOR_ICON_DEFAULT } />
 }
 
 const styles = StyleSheet.create({
-    cameraContainer: {
-        width: "100%",
-        height: "80%"
+  cameraContainer: {
+    height: "100%",
+    width: "100%"
     },
-    controller: {
-        width: "100%",
-        flexDirection: "row",
-        alignSelf: "center",
-        marginTop: 10,
-        justifyContent: "space-evenly",
+  controller: {
+    position: "absolute",
+    height: "100%",
+    flexDirection: "column",
+    marginBottom: 10,
+    justifyContent: "center"
     }
 });
