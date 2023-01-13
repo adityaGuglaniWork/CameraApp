@@ -2,28 +2,26 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useState, useRef } from 'react';
 import { Camera } from 'react-native-vision-camera';
 import { StyleSheet, View } from 'react-native'
-import CameraRoll from '@react-native-community/cameraroll';
-
 
 const COLOR_ICON_DEFAULT = "#FEFEFE";
 const COLOR_ICON_HIGHLIGHTED = "#FF5733";
 const COLOR_ICON_SIZE = 30;
 
-export default function CapturePhotoView({ device, onTogglePosition }) {
-    const [isFlashOn, setFlashOn] = useState(false);
-    const camera = useRef(null);
+export default function CapturePhotoView({ device, onTogglePosition, onCapture }) {
+  const [isFlashOn, setFlashOn] = useState(false);
+  const camera = useRef(null);
   
-    const onClickPicture = async () => {
-      camera.current.takePhoto({
-          flash: (isFlashOn) ? "on" : "off"
+  const onClickPicture = async () => {
+    camera.current.takePhoto({
+         flash: (isFlashOn) ? "on" : "off"
+    })
+      .then((photo) => {
+        onCapture(photo.path);
       })
-          .then((photo) => {
-              CameraRoll.save(photo.path);
-          })
-          .catch((e) => {
-              alert("Couldnt capture")
-          });
-    }
+      .catch((e) => {
+        alert("Couldnt capture")
+      });
+  }
     
     return (
       <>
@@ -35,10 +33,11 @@ export default function CapturePhotoView({ device, onTogglePosition }) {
         <View style={styles.controller}>
           <ControllerIcon name="repeat" onPress={onTogglePosition} />
           <ControllerIcon name="flash" onPress={() => { setFlashOn(!isFlashOn) }} isSelected={isFlashOn} />
-          <ControllerIcon name="camera" onPress={ onClickPicture } />
+          <ControllerIcon name="camera" onPress={onClickPicture} />
         </View>
       </>
     );
+
 }
   
 const ControllerIcon = ({ name, onPress, isSelected }) => {
